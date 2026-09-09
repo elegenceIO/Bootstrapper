@@ -1,0 +1,16 @@
+{
+    "name": "elegenceio/bootstrap",
+    "description": "Application Builder for lazarusphp",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "ElegenceIO\\Bootstrap\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "itzzpadre"
+        }
+    ],
+    "require": {}
+}
