@@ -1,6 +1,7 @@
 {
     "name": "elegenceio/bootstrap",
-    "description": "Application Builder for lazarusphp",
+    "description": "Application,
+     Builder for lazarusphp",
     "type": "library",
     "autoload": {
         "psr-4": {
