@@ -49,6 +49,7 @@ class Application
         return $this;   
     }    
 
+
     public function router(string|array $routes):self
     {
         if(Strings::is($routes))
@@ -63,10 +64,10 @@ class Application
         return $this;
     }
 
-    public function create():Configurator
+    public function create():Dispatcher
     {
         if(!isset($this->data["configs"])) $this->data["configs"] = $this->configs;
-        return New Configurator($this->data);
+        return new Dispatcher($this->data);
     } 
 
     
