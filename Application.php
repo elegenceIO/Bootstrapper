@@ -1,5 +1,5 @@
 <?php
-namespace ElegenceIO\Core\Bootstrap;
+namespace ElegenceIO\Bootstrap;
 
 use ElegenceIO\Containers\Container;
 use ElegenceIO\Core\Bootstrap\Kernel;
