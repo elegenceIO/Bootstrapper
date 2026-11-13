@@ -9,7 +9,7 @@ use ElegenceIO\Core\Filesystem\Configs;
 use ElegenceIO\Core\Requests\Console\Kernel;
 use ElegenceIO\Core\Helpers\Helpers;
 use ElegenceIO\Core\Requests\Http\Kernel as HttpKernel;
-use ElegenceIO\Core\Providers\ServiceProvider;
+use ElegenceIO\Bootstrap\ServiceProvider;
 use ElegenceIO\Foundation\Parsers\Env;
 use ElegenceIO\Logger\Log;
 use Exception;
