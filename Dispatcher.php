@@ -7,7 +7,7 @@ use ElegenceIO\Containers\Container;
 use ElegenceIO\Contracts\Bootstrap\BootstrapKernel;
 use ElegenceIO\Core\Filesystem\Configs;
 use ElegenceIO\Core\Requests\Console\Kernel;
-use ElegenceIO\Core\Helpers\Helpers;
+use ElegenceIO\Helpers\Helpers;
 use ElegenceIO\Core\Requests\Http\Kernel as HttpKernel;
 use ElegenceIO\Bootstrap\ServiceProvider;
 use ElegenceIO\Foundation\Parsers\Env;
