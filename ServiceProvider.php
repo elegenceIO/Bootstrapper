@@ -3,7 +3,6 @@ namespace ElegenceIO\Bootstrap;
 
 use ElegenceIO\Containers\Container;
 use ElegenceIO\Contracts\Containers\ServiceProviders;
-use ElegenceIO\Core\Providers\PreBind;
 use Exception;
 
 class ServiceProvider
@@ -33,11 +32,23 @@ class ServiceProvider
      */
 
     
+    
     public function build():void
     {
         $providers = [];
         $defaults = config("app.defaults");
+        // $defaults=[];
+
+        foreach($defaults as $default)
+        {
+            if(!\class_exists($default))
+            {
+                throw new Exception("Cannot find called Class $default");
+            }
+        }
+
         $this->providers = !empty($defaults) ? array_merge($defaults,$this->providers) : $this->providers;
+
          foreach($this->providers as $providerClass)
         {
             // Check if the class Exists or doesnt 
