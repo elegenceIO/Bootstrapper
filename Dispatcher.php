@@ -4,13 +4,13 @@ namespace ElegenceIO\Bootstrap;
 use DirectoryIterator;
 use ElegenceIO\Containers\ContainerRegistry;
 use ElegenceIO\Containers\Container;
+use ElegenceIO\Bootstrap\Support\Configs;
 use ElegenceIO\Contracts\Bootstrap\BootstrapKernel;
-use ElegenceIO\Core\Filesystem\Configs;
-use ElegenceIO\Core\Requests\Console\Kernel;
+use ElegenceIO\Requests\Console\Kernel;
 use ElegenceIO\Helpers\Helpers;
-use ElegenceIO\Core\Requests\Http\Kernel as HttpKernel;
+use ElegenceIO\Requests\Http\Kernel as HttpKernel;
 use ElegenceIO\Bootstrap\ServiceProvider;
-use ElegenceIO\Foundation\Parsers\Env;
+use ElegenceIO\Support\Env;
 use ElegenceIO\Logger\Log;
 use Exception;
 
@@ -39,7 +39,8 @@ final class Dispatcher
         $this->container = new Container();
         $this->container->bind("app",$this);
         $this->container->bind("container",$this->container);
-        $this->container->make(Helpers::class);
+        $this->container->make(Helpers::class)->reload();
+
         ContainerRegistry::set($this->container);
 
      }
@@ -48,7 +49,7 @@ final class Dispatcher
 
     private function setbase()
     {
-        app()->container->bind("basepath",$this->data["basepath"]);
+        $this->container->bind("basepath",$this->data["basepath"]);
     }
 
     private function router()
@@ -67,7 +68,7 @@ final class Dispatcher
     {  
         $this->setbase();
         $this->container->bind("env",new Env($this->data["basepath"]));
-        $this->container->bind("logger",new Log(basepath("/Storage/Logs.php")));
+        $this->container->bind("logger",new Log($this->data["basepath"]."/Storage/Logs.php"));
         $this->setConfigs();
     }
 
@@ -76,11 +77,12 @@ final class Dispatcher
           // Register ServiceProvider to Allow Externals
           if(isset($this->data["providers"]));
             {       
-            app("container")->bind("providers",new ServiceProvider($this->data,$this->container));
+            $this->container->bind("providers",new ServiceProvider($this->data,$this->container));
             }
+            
         app("providers")->build($this->container);
         $this->router();
-        app("container")->remove("providers");
+        $this->container->remove("providers");
     }
 
     public function handle(mixed $requests):object
@@ -88,8 +90,6 @@ final class Dispatcher
         $this->preBootstrap();
         $handle = (\php_sapi_name() !== "cli") ? new HttpKernel($this->container,$requests) : new Kernel($this->container,$requests);
         $this->postBootstrap();
-        // $this->container->bind("view",new View(basepath()));
-        // echo view("Home/Index.php")->with("username","martin")->render();
         if(!$handle instanceof BootstrapKernel)
         {
             throw new Exception("Failed to load Boostrapper");
